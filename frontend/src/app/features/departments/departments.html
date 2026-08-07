@@ -1,0 +1,95 @@
+<h1>Department Management</h1>
+@if(authService.isAdmin())
+{
+<button (click)="addDepartment()">+ Add Department</button>
+}
+<br><br>
+<input type="text" placeholder="Search department..." [(ngModel)]="search" (input)="onSearch()">
+@if (search)
+{
+<button class="clear-btn" (click)="clearSearch()">Clear</button>
+}
+<br><br>
+<label>Sort By:</label>
+<select
+  [(ngModel)]="sortField" (change)="onSortChange()">
+  <option value="id">Department ID</option>
+  <option value="name">Name</option>
+</select>
+&nbsp;&nbsp;
+<label>Order:</label>
+<select [(ngModel)]="sortDirection" (change)="onSortChange()">
+  <option value="asc">Ascending</option>
+  <option value="desc">Descending</option>
+</select>
+<br><br>
+@if (isLoading)
+{
+<p class="loading">Loading departments...</p>
+}
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>S.No</th>
+    <th>Dept.ID</th>
+    <th>Name</th>
+    @if(authService.isAdmin())
+    {
+    <th>Actions</th>
+    }
+  </tr>
+  </thead>
+
+  <tbody>
+  @if (departments.length === 0 && !isLoading)
+  {
+  <tr>
+    <td [attr.colspan]="authService.isAdmin() ? 4 : 3" class="no-data">
+      No departments found
+      @if (search)
+      {
+      for "{{ search }}"
+      }
+    </td>
+  </tr>
+  }
+  @else
+  {
+  @for (department of departments; track department.id; let i = $index)
+  {
+  <tr>
+    <td>{{ currentPage * pageSize + i + 1 }}</td>
+    <td>{{ department.id }}</td>
+    <td>{{ department.name }}</td>
+    @if(authService.isAdmin())
+    {
+    <td>
+      <button class="edit-btn" (click)="editDepartment(department.id)">Edit</button>
+      <button class="delete-btn" (click)="deleteDepartment(department.id)">Delete</button>
+    </td>
+    }
+  </tr>
+  }
+  }
+</tbody>
+</table>
+
+<div class="pagination">
+  <button class="page-btn" (click)="previousPage()" [disabled]="currentPage === 0">
+    Previous
+  </button>
+
+  @for(page of getPages(); track page)
+  {
+  <button class="page-number" [class.active]="page === currentPage" (click)="goToPage(page)">{{ page + 1 }}</button>
+  }
+
+  <button
+    class="page-btn"
+    (click)="nextPage()"
+    [disabled]="currentPage >= totalPages - 1">
+    Next
+  </button>
+
+</div>

@@ -1,0 +1,20 @@
+<div class="form-container">
+  <h2>
+    {{ isEditMode ? 'Edit Department' : 'Add Department' }}
+  </h2>
+
+  <label>Department Name</label>
+
+  <input
+    type="text"
+    [(ngModel)]="department.name">
+
+  <button
+    type="button"
+    (click)="saveDepartment()">
+
+    {{ isEditMode ? 'Update Department' : 'Save Department' }}
+
+  </button>
+
+</div>

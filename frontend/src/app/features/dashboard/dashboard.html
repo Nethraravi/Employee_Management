@@ -1,0 +1,26 @@
+<h1>Dashboard</h1>
+
+
+
+<div class="dashboard-grid">
+  <div class="card">
+    <h3>👥 Total Employees</h3>
+    <p>{{ dashboard.totalEmployees }}</p>
+  </div>
+
+  <div class="card">
+    <h3>🏢 Total Departments</h3>
+    <p>{{ dashboard.totalDepartments }}</p>
+  </div>
+
+  <div class="card">
+    <h3>💰 Highest Salary</h3>
+    <p>₹ {{ dashboard.highestSalary }}</p>
+  </div>
+
+  <div class="card">
+    <h3>📊 Average Salary</h3>
+    <p>₹ {{ dashboard.averageSalary | number:'1.2-2' }}</p>
+  </div>
+</div>
+

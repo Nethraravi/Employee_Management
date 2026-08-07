@@ -1,0 +1,18 @@
+mat-nav-list {
+  width: 250px;
+  height: 100%;
+  background: #263238;
+}
+
+a[mat-list-item] {
+  color: whitesmoke !important;
+}
+
+.mat-mdc-list-item-unscoped-content {
+  color: white !important;
+}
+
+mat-icon {
+  color: white !important;
+  margin-right: 15px;
+}

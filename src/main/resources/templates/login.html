@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Employee Management</h2>
+<div th:if="${param.error}" style="color:red;">
+    Invalid username or password!!...
+</div>
+<div th:if="${param.logout}" style="color:green">
+    You have been logged out successfully!!...
+</div>
+<form method="post" action="/login">
+    <div>
+        Username:
+        <input type="text" name="username"/>
+    </div>
+    <br>
+    <div>
+        Password:
+        <input type="password" name="password"/>
+    </div>
+    <br>
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+<div class="form-container">
+
+  <h2>{{ isEditMode ? 'Edit Employee' : 'Add Employee' }}</h2>
+
+  <label>Name</label>
+  <input
+    type="text"
+    [(ngModel)]="employee.name">
+
+  <label>Salary</label>
+  <input
+    type="number"
+    [(ngModel)]="employee.salary">
+
+  <label>Department</label>
+
+  <select [(ngModel)]="employee.departmentId">
+
+    <option [ngValue]="0">Select Department</option>
+
+    @for (department of departments; track department.id) {
+    <option [ngValue]="department.id">
+      {{ department.name }}
+    </option>
+    }
+
+  </select>
+
+  <button
+    type="button"
+    (click)="save()"
+    [disabled]="isSaving">
+
+    {{ isSaving ? 'Saving...' : (isEditMode ? 'Update Employee' : 'Save Employee') }}
+
+  </button>
+
+</div>

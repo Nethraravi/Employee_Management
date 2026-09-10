@@ -28,7 +28,42 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(withDefaults()).csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll().requestMatchers(HttpMethod.GET,"/employees/**").hasAnyRole("ADMIN","USER").requestMatchers(HttpMethod.POST,"/employees/**").hasRole("ADMIN").requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN").requestMatchers(HttpMethod.DELETE, "/employees/**").hasRole("ADMIM").requestMatchers(HttpMethod.GET, "/departments/**").hasAnyRole("ADMIN","USER").requestMatchers(HttpMethod.POST, "/departments/**").hasRole("ADMIN").requestMatchers(HttpMethod.PUT, "/departments/**").hasRole("ADMIN").requestMatchers(HttpMethod.DELETE, "/departments/**").hasRole("ADMIN").anyRequest().authenticated()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.cors(withDefaults()).csrf(csrf -> csrf.disable()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).authorizeHttpRequests(auth -> auth.requestMatchers("/auth/login", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+                .requestMatchers("/auth/change-password").authenticated()
+                .requestMatchers(HttpMethod.GET, "/dashboard")
+                        .hasAnyRole("ADMIN", "USER")
+                .requestMatchers(HttpMethod.GET,"/employees/**").hasAnyRole("ADMIN","USER")
+                .requestMatchers(HttpMethod.POST,"/employees/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/employees/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/employees/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/departments/**").hasAnyRole("ADMIN","USER")
+                .requestMatchers(HttpMethod.POST, "/departments/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/departments/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/departments/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/leaves")
+                .hasRole("USER")
+
+                .requestMatchers(HttpMethod.GET, "/leaves/my")
+                .hasRole("USER")
+
+                .requestMatchers(HttpMethod.GET, "/leaves")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/leaves/employee/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/leaves/status/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/leaves/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.PUT, "/leaves/**")
+                .hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.DELETE, "/leaves/**")
+                .hasRole("ADMIN"))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -48,7 +83,6 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(java.util.List.of("http://localhost:4200"));
         configuration.setAllowedMethods(java.util.List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.List.of("*"));
-
         org.springframework.web.cors.UrlBasedCorsConfigurationSource source = new org.springframework.web.cors.UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

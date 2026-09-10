@@ -1,7 +1,5 @@
 package org.company.employeemanagement.dto;
 
-import org.company.employeemanagement.entity.Employee;
-
 public class EmployeeResponseDTO {
     private Long id;
     private String name;

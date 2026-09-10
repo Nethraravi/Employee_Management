@@ -8,11 +8,61 @@ a[mat-list-item] {
   color: whitesmoke !important;
 }
 
-.mat-mdc-list-item-unscoped-content {
-  color: white !important;
+a[mat-list-item] span {
+  color: whitesmoke !important;
 }
 
-mat-icon {
-  color: white !important;
+a[mat-list-item] mat-icon {
+  color: whitesmoke !important;
+  margin-right: 15px;
+}
+
+
+/* Leave header */
+
+.leave-menu-header {
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  color: whitesmoke;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.leave-menu-header:hover {
+  background-color: #37474f;
+}
+
+.leave-menu-header > mat-icon:first-child {
+  margin-right: 15px;
+}
+
+.leave-menu-header span {
+  flex: 1;
+  color: whitesmoke;
+}
+
+.leave-menu-header .arrow {
+  margin-left: auto;
+}
+
+
+/* Leave submenu */
+
+.leave-submenu {
+  background-color: #1e292e;
+}
+
+.leave-submenu a {
+  padding-left: 40px !important;
+}
+
+.leave-submenu a span {
+  color: whitesmoke !important;
+}
+
+.leave-submenu a mat-icon {
+  color: whitesmoke !important;
   margin-right: 15px;
 }

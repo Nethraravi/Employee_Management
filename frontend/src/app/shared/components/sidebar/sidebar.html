@@ -15,4 +15,41 @@
     <span>Departments</span>
   </a>
 
+  <div class="leave-menu">
+
+    <div class="leave-menu-header" (click)="toggleLeaveMenu()">
+      <mat-icon>event_note</mat-icon>
+      <span>Leave</span>
+
+      <mat-icon class="arrow">
+        {{ isLeaveMenuOpen ? 'expand_less' : 'expand_more' }}
+      </mat-icon>
+    </div>
+
+    <div class="leave-submenu" *ngIf="isLeaveMenuOpen">
+
+      <a mat-list-item routerLink="/apply-leave" *ngIf="!authService.isAdmin()">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span>Apply Leave</span>
+      </a>
+
+      <a mat-list-item routerLink="/my-leaves" *ngIf="!authService.isAdmin()">
+        <mat-icon>history</mat-icon>
+        <span>My Leaves</span>
+      </a>
+
+      <a
+        mat-list-item
+        routerLink="/leave-management"
+        *ngIf="authService.isAdmin()">
+
+        <mat-icon>manage_accounts</mat-icon>
+        <span>Leave Management</span>
+
+      </a>
+
+    </div>
+
+  </div>
+
 </mat-nav-list>

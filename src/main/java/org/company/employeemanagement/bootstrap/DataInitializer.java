@@ -3,18 +3,18 @@ package org.company.employeemanagement.bootstrap;
 import org.company.employeemanagement.entity.AppUser;
 import org.company.employeemanagement.entity.Role;
 import org.company.employeemanagement.repository.RoleRepository;
-import org.company.employeemanagement.repository.UserRepository;
+import org.company.employeemanagement.repository.AppUserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-    private final UserRepository userRepository;
+    private final AppUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
 
-    public DataInitializer(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository)
+    public DataInitializer(AppUserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository)
     {
         this.userRepository=userRepository;
         this.passwordEncoder=passwordEncoder;

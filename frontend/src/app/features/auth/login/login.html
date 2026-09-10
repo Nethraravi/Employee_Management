@@ -21,4 +21,6 @@
   <button (click)="login()">
     Login
   </button>
+
+  <p *ngIf="errorMessage">{{ errorMessage }}</p>
 </div>

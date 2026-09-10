@@ -1,7 +1,7 @@
 package org.company.employeemanagement.service;
 
 import org.company.employeemanagement.entity.AppUser;
-import org.company.employeemanagement.repository.UserRepository;
+import org.company.employeemanagement.repository.AppUserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,9 +12,9 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final AppUserRepository userRepository;
 
-    public CustomUserDetailsService(UserRepository userRepository)
+    public CustomUserDetailsService(AppUserRepository userRepository)
     {
         this.userRepository=userRepository;
     }

@@ -1,0 +1,53 @@
+<div class="apply-leave-container">
+
+  <h2>Apply Leave</h2>
+
+  <div>
+    <label>Leave Type</label>
+
+    <select [(ngModel)]="leaveType">
+      <option value="">Select leave type</option>
+      <option value="CASUAL">Casual</option>
+      <option value="SICK">Sick</option>
+      <option value="ANNUAL">Annual</option>
+    </select>
+  </div>
+
+  <div>
+    <label>Start Date</label>
+    <input
+      type="date"
+      [(ngModel)]="startDate"
+    />
+  </div>
+
+  <div>
+    <label>End Date</label>
+    <input
+      type="date"
+      [(ngModel)]="endDate"
+    />
+  </div>
+
+  <div>
+    <label>Reason</label>
+    <textarea
+      [(ngModel)]="reason"
+      placeholder="Enter reason for leave"
+      rows="4">
+    </textarea>
+  </div>
+
+  <button (click)="applyLeave()">
+    Apply Leave
+  </button>
+
+  <p class="error-message" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+
+  <p class="success-message" *ngIf="successMessage">
+    {{ successMessage }}
+  </p>
+
+</div>

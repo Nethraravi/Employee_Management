@@ -1,0 +1,63 @@
+<div class="my-leaves-container">
+
+  <div class="page-header">
+    <h2>My Leave History</h2>
+  </div>
+
+  <p *ngIf="isLoading" class="info-message">
+    Loading leave history...
+  </p>
+
+  <p *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
+
+  <p
+    *ngIf="!isLoading && !errorMessage && leaves.length === 0"
+    class="info-message">
+    No leave applications found.
+  </p>
+
+  <table
+    *ngIf="!isLoading && leaves.length > 0"
+    class="leave-table">
+
+    <thead>
+    <tr>
+      <th>Leave Type</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Reason</th>
+      <th>Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr *ngFor="let leave of leaves">
+
+      <td>{{ leave.leaveType }}</td>
+
+      <td>{{ leave.startDate }}</td>
+
+      <td>{{ leave.endDate }}</td>
+
+      <td>{{ leave.reason }}</td>
+
+      <td>
+          <span
+            class="status"
+            [ngClass]="leave.status.toLowerCase()">
+
+            {{ leave.status }}
+
+          </span>
+      </td>
+
+    </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

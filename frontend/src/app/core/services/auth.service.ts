@@ -57,4 +57,15 @@ export class AuthService
     localStorage.removeItem('jwt');
   }
 
+  changePassword(currentPassword: string,newPassword: string): Observable<any> {
+
+    return this.http.post(
+        `${API_CONFIG.BASE_URL}/auth/change-password`,
+        {
+          currentPassword,
+          newPassword
+        }
+    );
+  }
+
 }

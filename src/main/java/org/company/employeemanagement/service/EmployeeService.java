@@ -3,12 +3,16 @@ package org.company.employeemanagement.service;
 import jakarta.transaction.Transactional;
 import org.company.employeemanagement.dto.EmployeeRequestDTO;
 import org.company.employeemanagement.dto.EmployeeResponseDTO;
+import org.company.employeemanagement.entity.AppUser;
 import org.company.employeemanagement.entity.Department;
 import org.company.employeemanagement.entity.Employee;
+import org.company.employeemanagement.entity.Role;
 import org.company.employeemanagement.exception.EmployeeNotFoundException;
 import org.company.employeemanagement.mapper.EmployeeMapper;
+import org.company.employeemanagement.repository.AppUserRepository;
 import org.company.employeemanagement.repository.DepartmentRepository;
 import org.company.employeemanagement.repository.EmployeeRepository;
+import org.company.employeemanagement.repository.RoleRepository;
 import org.company.employeemanagement.specification.EmployeeSpecification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,14 +27,20 @@ public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final DepartmentRepository departmentRepository;
     private final AuditService auditService;
+    private final AppUserRepository appUserRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordService passwordService;
     private static final Logger log = LoggerFactory.getLogger(EmployeeService.class);
 
-    public EmployeeService(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository, AuditService auditService, EmployeeMapper employeeMapper)
+    public EmployeeService(DepartmentRepository departmentRepository, EmployeeRepository employeeRepository, AuditService auditService, EmployeeMapper employeeMapper, AppUserRepository appUserRepository, RoleRepository roleRepository, PasswordService passwordService)
     {
         this.employeeRepository=employeeRepository;
         this.departmentRepository=departmentRepository;
         this.auditService=auditService;
         this.employeeMapper=employeeMapper;
+        this.appUserRepository=appUserRepository;
+        this.roleRepository=roleRepository;
+        this.passwordService=passwordService;
     }
 
     //To visualize REQUIRED
@@ -148,6 +158,21 @@ public class EmployeeService {
         return employeeRepository.findAll(specification, pageable).map(employeeMapper::toDto);
     }
 
+    private String generateUsername(String name) {
+
+        String baseUsername = name.toLowerCase().trim().replaceAll("\\s+", "");
+
+        String username = baseUsername;
+        int counter = 1;
+
+        while (appUserRepository.existsByUsername(username)) {
+            username = baseUsername + counter;
+            counter++;
+        }
+        return username;
+    }
+
+    @Transactional
     public EmployeeResponseDTO createEmployee(EmployeeRequestDTO request) {
 
         Employee employee = new Employee();
@@ -159,6 +184,25 @@ public class EmployeeService {
         employee.setDepartment(department);
 
         Employee saved = employeeRepository.save(employee);
+
+        String username = generateUsername(saved.getName());
+
+        String temporaryPassword = passwordService.generateTemporaryPassword();
+
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("USER role not found"));
+
+        AppUser appUser = new AppUser();
+        appUser.setUsername(username);
+        appUser.setPassword(passwordService.encode(temporaryPassword));
+        appUser.setRole(userRole);
+        appUser.setEmployee(saved);
+        appUser.setMustChangePassword(true);
+
+        appUserRepository.save(appUser);
+        System.out.println("Employee account created");
+        System.out.println("Username: " + username);
+        System.out.println("Temporary Password: " + temporaryPassword);
 
         return employeeMapper.toDto(saved);
     }

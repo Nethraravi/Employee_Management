@@ -1,0 +1,163 @@
+<div class="leave-management-container">
+
+  <div class="page-header">
+    <h2>Leave Management</h2>
+  </div>
+
+  <div class="filter-bar">
+
+    <div class="filter-group">
+      <label>Leave ID</label>
+      <input
+        type="number"
+        [(ngModel)]="leaveId"
+        placeholder="Enter leave ID"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>Employee ID</label>
+      <input
+        type="number"
+        [(ngModel)]="employeeId"
+        placeholder="Enter employee ID"
+      />
+    </div>
+
+    <div class="filter-group">
+      <label>Status</label>
+      <select [(ngModel)]="status">
+        <option value="">All</option>
+        <option value="PENDING">Pending</option>
+        <option value="APPROVED">Approved</option>
+        <option value="REJECTED">Rejected</option>
+      </select>
+    </div>
+
+    <div class="filter-actions">
+      <button class="search-button" (click)="loadLeaves()">
+        Search
+      </button>
+
+      <button class="reset-button" (click)="resetFilters()">
+        Reset
+      </button>
+    </div>
+
+  </div>
+
+  <p *ngIf="isLoading" class="info-message">
+    Loading leaves...
+  </p>
+
+  <p *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </p>
+
+  <p *ngIf="successMessage" class="success-message">
+    {{ successMessage }}
+  </p>
+
+  <p
+    *ngIf="!isLoading && !errorMessage && leaves.length === 0"
+    class="info-message">
+
+    No leave applications found.
+
+  </p>
+
+  <table
+    *ngIf="!isLoading && leaves.length > 0"
+    class="leave-table">
+
+    <thead>
+
+    <tr>
+      <th>Employee ID</th>
+      <th>Leave Type</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Reason</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr *ngFor="let leave of leaves">
+
+      <td>
+        {{ leave.employeeId }}
+      </td>
+
+      <td>
+        {{ leave.leaveType }}
+      </td>
+
+      <td>
+        {{ leave.startDate }}
+      </td>
+
+      <td>
+        {{ leave.endDate }}
+      </td>
+
+      <td>
+        {{ leave.reason }}
+      </td>
+
+      <td>
+
+        <span
+          class="status"
+          [ngClass]="leave.status.toLowerCase()">
+
+          {{ leave.status }}
+
+        </span>
+
+      </td>
+
+      <td>
+
+        <div
+          *ngIf="leave.status === 'PENDING'"
+          class="action-buttons">
+
+          <button
+            class="approve-button"
+            (click)="updateStatus(leave.id, 'APPROVED')">
+
+            Approve
+
+          </button>
+
+          <button
+            class="reject-button"
+            (click)="updateStatus(leave.id, 'REJECTED')">
+
+            Reject
+
+          </button>
+
+        </div>
+
+        <span
+          *ngIf="leave.status !== 'PENDING'"
+          class="completed-action">
+
+          Completed
+
+        </span>
+
+      </td>
+
+    </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

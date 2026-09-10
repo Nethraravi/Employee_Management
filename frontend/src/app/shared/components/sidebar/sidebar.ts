@@ -3,12 +3,24 @@ import { RouterLink } from '@angular/router';
 
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-//import {traceDynamicValue} from '@angular/compiler-cli/src/ngtsc/partial_evaluator';
+import {CommonModule} from '@angular/common';
+
+import { AuthService } from '../../../core/services/auth.service';
+
 @Component({
   standalone: true,
   selector: 'app-sidebar',
-  imports: [RouterLink,MatListModule,MatIconModule],
+  imports: [CommonModule, RouterLink,MatListModule,MatIconModule],
   templateUrl: './sidebar.html',
   styleUrl: './sidebar.css',
 })
-export class Sidebar {}
+export class Sidebar {
+  isLeaveMenuOpen = false;
+
+  constructor(public authService: AuthService) {
+  }
+
+  toggleLeaveMenu(): void {
+    this.isLeaveMenuOpen = !this.isLeaveMenuOpen;
+  }
+}
